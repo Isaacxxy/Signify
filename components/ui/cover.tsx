@@ -24,7 +24,7 @@ export const Cover = ({
       setContainerWidth(ref.current?.clientWidth ?? 0);
 
       const height = ref.current?.clientHeight ?? 0;
-      const numberOfBeams = 4; // Adjust the divisor to control the spacing
+      const numberOfBeams = 2; // Adjust the divisor to control the spacing
       const positions = Array.from(
         { length: numberOfBeams },
         (_, i) => (i + 1) * (height / (numberOfBeams + 1))

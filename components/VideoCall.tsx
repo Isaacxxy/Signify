@@ -21,7 +21,7 @@ const VideoCall = () => {
   }, [localStream]);
 
   const toggleCamera = useCallback(() => {
-    if (localStream) {
+    if (localStream && localStream.getVideoTracks().length > 0) {
       const videoTrack = localStream.getVideoTracks()[0];
       videoTrack.enabled = !videoTrack.enabled;
       setIsVidOn(videoTrack.enabled);
@@ -44,7 +44,8 @@ const VideoCall = () => {
 
   if (!localStream && !peer) return;
   return (
-    <div>
+    <div className="text-center mt-5">
+      Waiting for the call to start...
       <div className="mt-4 relative">
         {localStream && (
           <VideoContainer
