@@ -123,13 +123,14 @@ export const SocketContextProvider = ({
 
   const handleHangup = useCallback(
     (data: { ongoingCall?: OnGoingCall | null; isEmitHangup?: boolean }) => {
+      
       if (socket && user && data?.ongoingCall && data?.isEmitHangup) {
         socket.emit("hangup", {
           ongoingCall: data.ongoingCall,
           userHangingupId: user.id,
         });
       }
-
+      setMessages([]);
       setOngoingCall(null);
       setPeer(null);
       if (localStream) {
@@ -286,6 +287,7 @@ export const SocketContextProvider = ({
   useEffect(() => {
     if (!socket || !isSocketConnected) return;
     socket.on("receiveMessage", (message) => {
+      console.log(message);
       setMessages((prev) => [...prev, message]);
     });
     return () => {

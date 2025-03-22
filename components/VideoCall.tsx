@@ -8,7 +8,15 @@ import { MdMic, MdMicOff, MdVideocam, MdVideocamOff } from "react-icons/md";
 import { useUser } from "@clerk/nextjs"; // Importez useUser pour obtenir l'ID de l'utilisateur actuel
 
 const VideoCall = () => {
-  const { localStream, peer, ongoingCall, handleHangup, isCallEnded, sendMessage, messages } = useSocket();
+  const {
+    localStream,
+    peer,
+    ongoingCall,
+    handleHangup,
+    isCallEnded,
+    sendMessage,
+    messages,
+  } = useSocket();
   const { user } = useUser(); // Récupérez l'utilisateur actuel
   const [isMicOn, setIsMicOn] = useState(true);
   const [isVidOn, setIsVidOn] = useState(true);
@@ -53,9 +61,9 @@ const VideoCall = () => {
       ? ongoingCall?.participants?.caller?.userId
       : ongoingCall?.participants?.receiver?.userId;
 
-  console.log("receiver ID >>", receiverId);
-
   const handleSendMessage = () => {
+    
+    messages.push({ senderId: user?.id || '', text: newMessage });
     if (newMessage.trim() && receiverId) {
       sendMessage(receiverId, newMessage);
       setNewMessage("");
@@ -109,11 +117,16 @@ const VideoCall = () => {
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`mb-2 ${msg.senderId === user?.id ? "text-right" : "text-left"}`} // Comparez avec user?.id
+              className={`mb-2 ${
+                msg.senderId === user?.id ? "text-right" : "text-left"
+              }`} // Comparez avec user?.id
             >
               <div
-                className={`inline-block p-2 rounded-lg ${msg.senderId === user?.id ? "bg-blue-500 text-white" : "bg-gray-300" // Comparez avec user?.id
-                  }`}
+                className={`inline-block p-2 rounded-lg ${
+                  msg.senderId === user?.id
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-300" // Comparez avec user?.id
+                }`}
               >
                 {msg.text}
               </div>
@@ -129,7 +142,10 @@ const VideoCall = () => {
             className="flex-1 p-2 border rounded-l"
             placeholder="Type a message..."
           />
-          <Button onClick={handleSendMessage} className="bg-blue-500 text-white rounded-r">
+          <Button
+            onClick={handleSendMessage}
+            className="bg-blue-500 text-white rounded-r"
+          >
             Send
           </Button>
         </div>

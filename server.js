@@ -7,7 +7,6 @@
 // import onWebrtcSignal from "./socket-events/onWebrtcSignal.js";
 // import onHangup from "./socket-events/onHangup.js";
 
-
 // const dev = process.env.NODE_ENV !== "production";//détection du mode de développement pas de production
 // const hostname = "localhost";
 // const port = 3000;
@@ -107,7 +106,7 @@ app.prepare().then(() => {
     socket.on("webrtcSignal", onWebrtcSignal);
     socket.on("hangup", onHangup);
 
-    socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+    socket.on("sendMessage", async ({ senderId, receiverId, text }) => {
       const receiver = onlineUsers.find((user) => user.userId === receiverId);
       if (receiver) {
         io.to(receiver.socketId).emit("receiveMessage", {
