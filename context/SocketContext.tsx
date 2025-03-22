@@ -1,5 +1,11 @@
 "use client";
-import { OnGoingCall, Participants, PeerData, SocketMessage, SocketUser } from "@/types";
+import {
+  OnGoingCall,
+  Participants,
+  PeerData,
+  SocketMessage,
+  SocketUser,
+} from "@/types";
 import { useUser } from "@clerk/nextjs";
 import {
   createContext,
@@ -123,7 +129,6 @@ export const SocketContextProvider = ({
 
   const handleHangup = useCallback(
     (data: { ongoingCall?: OnGoingCall | null; isEmitHangup?: boolean }) => {
-      
       if (socket && user && data?.ongoingCall && data?.isEmitHangup) {
         socket.emit("hangup", {
           ongoingCall: data.ongoingCall,
@@ -260,9 +265,12 @@ export const SocketContextProvider = ({
     [localStream, createPeer, peer, ongoingCall]
   );
 
-  const sendMessage = useCallback((receiverId: string, text: string) => {
-    socket?.emit("sendMessage", { senderId: user?.id, receiverId, text });
-  }, [socket, user]);
+  const sendMessage = useCallback(
+    (receiverId: string, text: string) => {
+      socket?.emit("sendMessage", { senderId: user?.id, receiverId, text });
+    },
+    [socket, user]
+  );
 
   // interface SendMessageData {
   //   senderId: string;
@@ -294,7 +302,7 @@ export const SocketContextProvider = ({
       socket.off("receiveMessage", (res) => {
         setOnlineUsers(res);
       });
-    }
+    };
   }, [socket, isSocketConnected, user]);
 
   useEffect(() => {
@@ -353,6 +361,18 @@ export const SocketContextProvider = ({
   }, [socket, isSocketConnected, user, onIncomingCall, completePeerConnection]);
 
   useEffect(() => {
+    if (!socket || !isSocketConnected) return;
+    const handleUserBusy = () => {
+      alert("User busy");
+    };
+
+    socket.on("userBusy", handleUserBusy);
+    return () => {
+      socket.off("userBusy", handleUserBusy);
+    };
+  }, [socket, isSocketConnected]);
+
+  useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
     if (isCallEnded) {
       timeout = setTimeout(() => {
@@ -376,7 +396,7 @@ export const SocketContextProvider = ({
         testStream,
         // handleSendMessage,
         sendMessage,
-        messages
+        messages,
       }}
     >
       {children}

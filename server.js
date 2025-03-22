@@ -79,6 +79,8 @@ const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
 
 export let io;
+export const ongoingCalls = new Map(); // Pour stocker les appels en cours
+
 app.prepare().then(() => {
   const httpServer = createServer(handler);
 
@@ -105,7 +107,7 @@ app.prepare().then(() => {
     socket.on("call", onCall);
     socket.on("webrtcSignal", onWebrtcSignal);
     socket.on("hangup", onHangup);
-
+    
     socket.on("sendMessage", async ({ senderId, receiverId, text }) => {
       const receiver = onlineUsers.find((user) => user.userId === receiverId);
       if (receiver) {
