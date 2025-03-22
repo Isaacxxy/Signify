@@ -5,9 +5,11 @@ import VideoContainer from "./VideoContainer";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { MdMic, MdMicOff, MdVideocam, MdVideocamOff } from "react-icons/md";
+import { useUser } from "@clerk/nextjs"; // Importez useUser pour obtenir l'ID de l'utilisateur actuel
 
 const VideoCall = () => {
   const { localStream, peer, ongoingCall, handleHangup, isCallEnded, sendMessage, messages } = useSocket();
+  const { user } = useUser(); // Récupérez l'utilisateur actuel
   const [isMicOn, setIsMicOn] = useState(true);
   const [isVidOn, setIsVidOn] = useState(true);
   const [newMessage, setNewMessage] = useState("");
@@ -22,7 +24,7 @@ const VideoCall = () => {
   }, [localStream]);
 
   const toggleCamera = useCallback(() => {
-    if (localStream) {
+    if (localStream && localStream.getVideoTracks().length > 0) {
       const videoTrack = localStream.getVideoTracks()[0];
       videoTrack.enabled = !videoTrack.enabled;
       setIsVidOn(videoTrack.enabled);
@@ -45,9 +47,13 @@ const VideoCall = () => {
 
   if (!localStream && !peer) return;
 
-  // Determine the receiverId from the ongoing call
-  const receiverId = ongoingCall?.participants?.receiver?.userId
-  // const receiverId = ongoingCall?.participants?.caller?.userId === peer?.participantUser?.userId ? ongoingCall?.participants?.receiver?.userId: ongoingCall?.participants.caller?.userId;
+  // Déterminer le receiverId de manière simple
+  const receiverId =
+    ongoingCall?.participants?.caller?.userId === peer?.participantUser?.userId
+      ? ongoingCall?.participants?.caller?.userId
+      : ongoingCall?.participants?.receiver?.userId;
+
+  console.log("receiver ID >>", receiverId);
 
   const handleSendMessage = () => {
     if (newMessage.trim() && receiverId) {
@@ -58,7 +64,7 @@ const VideoCall = () => {
 
   return (
     <div className="flex flex-col md:flex-row">
-      {/* Video Section */}
+      {/* Section Vidéo */}
       <div className="flex-1">
         <div className="mt-4 relative">
           {localStream && (
@@ -97,12 +103,18 @@ const VideoCall = () => {
         </div>
       </div>
 
-      {/* Chat Section */}
+      {/* Section Chat */}
       <div className="w-full md:w-1/3 bg-gray-100 p-4">
         <div className="h-64 overflow-y-auto mb-4">
           {messages.map((msg, index) => (
-            <div key={index} className={`mb-2 ${msg.senderId === receiverId ? 'text-right' : 'text-left'}`}>
-              <div className={`inline-block p-2 rounded-lg ${msg.senderId === receiverId ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}>
+            <div
+              key={index}
+              className={`mb-2 ${msg.senderId === user?.id ? "text-right" : "text-left"}`} // Comparez avec user?.id
+            >
+              <div
+                className={`inline-block p-2 rounded-lg ${msg.senderId === user?.id ? "bg-blue-500 text-white" : "bg-gray-300" // Comparez avec user?.id
+                  }`}
+              >
                 {msg.text}
               </div>
             </div>
@@ -113,7 +125,7 @@ const VideoCall = () => {
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
             className="flex-1 p-2 border rounded-l"
             placeholder="Type a message..."
           />
