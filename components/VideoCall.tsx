@@ -7,9 +7,10 @@ import { Button } from "./ui/button";
 import { MdMic, MdMicOff, MdVideocam, MdVideocamOff } from "react-icons/md";
 
 const VideoCall = () => {
-  const { localStream, peer, ongoingCall, handleHangup, isCallEnded } = useSocket();
+  const { localStream, peer, ongoingCall, handleHangup, isCallEnded, sendMessage, messages } = useSocket();
   const [isMicOn, setIsMicOn] = useState(true);
   const [isVidOn, setIsVidOn] = useState(true);
+  const [newMessage, setNewMessage] = useState("");
 
   useEffect(() => {
     if (localStream) {
@@ -21,7 +22,7 @@ const VideoCall = () => {
   }, [localStream]);
 
   const toggleCamera = useCallback(() => {
-    if (localStream && localStream.getVideoTracks().length > 0) {
+    if (localStream) {
       const videoTrack = localStream.getVideoTracks()[0];
       videoTrack.enabled = !videoTrack.enabled;
       setIsVidOn(videoTrack.enabled);
@@ -39,47 +40,87 @@ const VideoCall = () => {
   const isOnCall = localStream && peer && ongoingCall ? true : false;
 
   if (isCallEnded) {
-    return <div className="mt-5 text-rose-500 text-center">Call Ended</div>
+    return <div className="mt-5 text-rose-500 text-center">Call Ended</div>;
   }
 
   if (!localStream && !peer) return;
+
+  // Determine the receiverId from the ongoing call
+  const receiverId = ongoingCall?.participants?.receiver?.userId
+  // const receiverId = ongoingCall?.participants?.caller?.userId === peer?.participantUser?.userId ? ongoingCall?.participants?.receiver?.userId: ongoingCall?.participants.caller?.userId;
+
+  const handleSendMessage = () => {
+    if (newMessage.trim() && receiverId) {
+      sendMessage(receiverId, newMessage);
+      setNewMessage("");
+    }
+  };
+
   return (
-    <div className="text-center mt-5">
-      Waiting for the call to start...
-      <div className="mt-4 relative">
-        {localStream && (
-          <VideoContainer
-            stream={localStream}
-            isLocalStream={true}
-            isOnCall={isOnCall}
-          />
-        )}
-        {peer && peer.stream && (
-          <VideoContainer
-            stream={peer.stream}
-            isLocalStream={false}
-            isOnCall={isOnCall}
-          />
-        )}
+    <div className="flex flex-col md:flex-row">
+      {/* Video Section */}
+      <div className="flex-1">
+        <div className="mt-4 relative">
+          {localStream && (
+            <VideoContainer
+              stream={localStream}
+              isLocalStream={true}
+              isOnCall={isOnCall}
+            />
+          )}
+          {peer && peer.stream && (
+            <VideoContainer
+              stream={peer.stream}
+              isLocalStream={false}
+              isOnCall={isOnCall}
+            />
+          )}
+        </div>
+        <div className="mt-8 flex item-center justify-center">
+          <Button onClick={toggleMic}>
+            {isMicOn ? <MdMicOff size={28} /> : <MdMic size={28} />}
+          </Button>
+          <Button
+            className="px-4 py-2 bg-rose-500 text-white rounded mx-4"
+            onClick={() =>
+              handleHangup({
+                ongoingCall: ongoingCall ? ongoingCall : undefined,
+                isEmitHangup: true,
+              })
+            }
+          >
+            End call
+          </Button>
+          <Button onClick={toggleCamera}>
+            {isVidOn ? <MdVideocamOff size={28} /> : <MdVideocam size={28} />}
+          </Button>
+        </div>
       </div>
-      <div className="mt-8 flex item-center justify-center">
-        <Button onClick={toggleMic}>
-          {isMicOn ? <MdMicOff size={28} /> : <MdMic size={28} />}
-        </Button>
-        <Button
-          className="px-4 py-2 bg-rose-500 text-white rounded mx-4"
-          onClick={() =>
-            handleHangup({
-              ongoingCall: ongoingCall ? ongoingCall : undefined,
-              isEmitHangup: true,
-            })
-          }
-        >
-          End call
-        </Button>
-        <Button onClick={toggleCamera}>
-          {isVidOn ? <MdVideocamOff size={28} /> : <MdVideocam size={28} />}
-        </Button>
+
+      {/* Chat Section */}
+      <div className="w-full md:w-1/3 bg-gray-100 p-4">
+        <div className="h-64 overflow-y-auto mb-4">
+          {messages.map((msg, index) => (
+            <div key={index} className={`mb-2 ${msg.senderId === receiverId ? 'text-right' : 'text-left'}`}>
+              <div className={`inline-block p-2 rounded-lg ${msg.senderId === receiverId ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}>
+                {msg.text}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+            className="flex-1 p-2 border rounded-l"
+            placeholder="Type a message..."
+          />
+          <Button onClick={handleSendMessage} className="bg-blue-500 text-white rounded-r">
+            Send
+          </Button>
+        </div>
       </div>
     </div>
   );

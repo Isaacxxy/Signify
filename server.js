@@ -107,6 +107,16 @@ app.prepare().then(() => {
     socket.on("webrtcSignal", onWebrtcSignal);
     socket.on("hangup", onHangup);
 
+    socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+      const receiver = onlineUsers.find((user) => user.userId === receiverId);
+      if (receiver) {
+        io.to(receiver.socketId).emit("receiveMessage", {
+          senderId,
+          text,
+        });
+      }
+    });
+
     process.on("uncaughtException", (err) => {
       console.error("Uncaught Exception:", err);
     });
