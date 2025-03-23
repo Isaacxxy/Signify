@@ -22,12 +22,12 @@ export default function RootLayout({
         <body className="bg-black relative">
           <SocketProvider>
             <main className="flex flex-col min-h-screen">
-              <div className="w-full">
+              {/* <div className="w-full">
                 <Navbar />
-              </div>
+              </div> */}
               <ThemeProvider
                 attribute="class"
-                defaultTheme="system"
+                defaultTheme="dark"
                 enableSystem
                 disableTransitionOnChange
               >

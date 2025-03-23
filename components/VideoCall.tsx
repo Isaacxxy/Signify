@@ -5,7 +5,11 @@ import VideoContainer from "./VideoContainer";
 import { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { MdMic, MdMicOff, MdVideocam, MdVideocamOff } from "react-icons/md";
-import { useUser } from "@clerk/nextjs"; // Importez useUser pour obtenir l'ID de l'utilisateur actuel
+import { MdSignLanguage } from "react-icons/md";
+import { ImPhoneHangUp } from "react-icons/im";
+import { useUser } from "@clerk/nextjs";
+import { IoIosChatbubbles } from "react-icons/io";
+
 
 const VideoCall = () => {
   const {
@@ -21,6 +25,7 @@ const VideoCall = () => {
   const [isMicOn, setIsMicOn] = useState(true);
   const [isVidOn, setIsVidOn] = useState(true);
   const [newMessage, setNewMessage] = useState("");
+  const [isChatOpen, setIsChatOpen] = useState(true);
 
   useEffect(() => {
     if (localStream) {
@@ -38,6 +43,7 @@ const VideoCall = () => {
       setIsVidOn(videoTrack.enabled);
     }
   }, [localStream]);
+
 
   const toggleMic = useCallback(() => {
     if (localStream) {
@@ -62,7 +68,7 @@ const VideoCall = () => {
       : ongoingCall?.participants?.receiver?.userId;
 
   const handleSendMessage = () => {
-    
+
     messages.push({ senderId: user?.id || '', text: newMessage });
     if (newMessage.trim() && receiverId) {
       sendMessage(receiverId, newMessage);
@@ -71,15 +77,16 @@ const VideoCall = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col md:flex-row gap-6 p-4 h-full w-full max-w-[1400px] mx-auto">
       {/* Section Vidéo */}
-      <div className="flex-1">
-        <div className="mt-4 relative">
+      <div className={`flex-1 flex flex-col justify-between gap-6 ${!isChatOpen && "items-center"}`}>
+        <div className="relative w-full h-auto">
           {localStream && (
             <VideoContainer
               stream={localStream}
               isLocalStream={true}
               isOnCall={isOnCall}
+              isChatOpen={isChatOpen}
             />
           )}
           {peer && peer.stream && (
@@ -90,67 +97,79 @@ const VideoCall = () => {
             />
           )}
         </div>
-        <div className="mt-8 flex item-center justify-center">
-          <Button onClick={toggleMic}>
-            {isMicOn ? <MdMicOff size={28} /> : <MdMic size={28} />}
+
+        <div className="flex flex-wrap justify-between items-center gap-4 w-full md:w-3/4 mx-auto">
+          <Button className="bg-white text-black rounded-xl">
+            <MdSignLanguage />
           </Button>
-          <Button
-            className="px-4 py-2 bg-rose-500 text-white rounded mx-4"
-            onClick={() =>
-              handleHangup({
-                ongoingCall: ongoingCall ? ongoingCall : undefined,
-                isEmitHangup: true,
-              })
-            }
-          >
-            End call
-          </Button>
-          <Button onClick={toggleCamera}>
-            {isVidOn ? <MdVideocamOff size={28} /> : <MdVideocam size={28} />}
+
+          <div className="flex gap-3">
+            <Button onClick={toggleMic}>
+              {isMicOn ? <MdMicOff size={24} /> : <MdMic size={24} />}
+            </Button>
+            <Button onClick={toggleCamera}>
+              {isVidOn ? <MdVideocamOff size={24} /> : <MdVideocam size={24} />}
+            </Button>
+            <Button
+              className="px-4 py-2 bg-rose-500 text-white rounded-full"
+              onClick={() =>
+                handleHangup({
+                  ongoingCall: ongoingCall ? ongoingCall : undefined,
+                  isEmitHangup: true,
+                })
+              }
+            >
+              <ImPhoneHangUp />
+            </Button>
+          </div>
+
+          <Button onClick={() => setIsChatOpen(!isChatOpen)}>
+            <IoIosChatbubbles size={24} />
           </Button>
         </div>
       </div>
 
       {/* Section Chat */}
-      <div className="w-full md:w-1/3 bg-gray-100 p-4">
-        <div className="h-64 overflow-y-auto mb-4">
+      <div className={`w-full md:w-1/3 bg-white shadow-xl rounded-2xl p-4 flex flex-col ${isChatOpen ? "flex justify-between" : "hidden"}`}>
+        {/* Messages */}
+        <div className="h-72 overflow-y-auto mb-4 space-y-4 px-2">
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`mb-2 ${
-                msg.senderId === user?.id ? "text-right" : "text-left"
-              }`} // Comparez avec user?.id
+              className={`flex ${msg.senderId === user?.id ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`inline-block p-2 rounded-lg ${
-                  msg.senderId === user?.id
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-300" // Comparez avec user?.id
-                }`}
+                className={`max-w-xs px-4 py-3 rounded-2xl text-sm shadow-md ${msg.senderId === user?.id
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-800"
+                  }`}
               >
                 {msg.text}
               </div>
             </div>
           ))}
         </div>
-        <div className="flex">
+
+        {/* Input */}
+        <div className="flex items-center pt-3 gap-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-            className="flex-1 p-2 border rounded-l"
+            onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+            className="flex-1 px-4 py-3 rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm "
             placeholder="Type a message..."
           />
           <Button
             onClick={handleSendMessage}
-            className="bg-blue-500 text-white rounded-r"
+            className="bg-blue-600 text-white px-5 py-3 rounded-full hover:bg-blue-700 text-sm"
           >
             Send
           </Button>
         </div>
       </div>
     </div>
+
   );
 };
 

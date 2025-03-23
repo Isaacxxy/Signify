@@ -5,12 +5,14 @@ interface iVideoContainer {
   stream: MediaStream | null;
   isLocalStream: boolean;
   isOnCall: boolean;
+  isChatOpen?: boolean;
 }
 
 const VideoContainer = ({
   stream,
   isLocalStream,
   isOnCall,
+  isChatOpen,
 }: iVideoContainer) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
@@ -21,7 +23,7 @@ const VideoContainer = ({
   return (
     <video
       ref={videoRef}
-      className={cn("rounded border w-[800px]", isLocalStream && isOnCall && "w-[200px] h-auto absolute border-purple-500 border-2")}
+      className={cn("rounded-2xl border-slate-400 border-2 w-[1200px]", isLocalStream && isOnCall && "md:w-[300px] w-[200px] h-auto rounded-lg absolute top-2 left-2", isChatOpen && !isLocalStream && !isOnCall && "w-[1500px]")}
       autoPlay
       muted={isLocalStream}
       playsInline

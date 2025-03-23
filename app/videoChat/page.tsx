@@ -1,16 +1,18 @@
+"use client"
+
 import CallNotification from '@/components/CallNotification'
-import ListOnlineUsers from '@/components/ListOfOnlineUsers'
 import VideoCall from '@/components/VideoCall'
 import React from 'react'
 
-function page() {
+function Page() {
+
+
   return (
-    <div>
-      <ListOnlineUsers />
+    <div className='h-full m-8 rounded-xl bg-primary-foreground w-fit mx-auto'>
       <CallNotification />
       <VideoCall />
     </div>
   )
 }
 
-export default page
+export default Page

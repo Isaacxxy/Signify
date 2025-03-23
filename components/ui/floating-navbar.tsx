@@ -83,7 +83,7 @@ export const FloatingNav = ({
             className
           )}
         >
-          <h1 className="felx sm:hidden items-center justify-center space-x-2 text-2xl font-bold py-4 text-center  mr-10 text-white"></h1>
+          <h1 className="flex sm:hidden items-center justify-center space-x-2 text-2xl font-bold py-4 text-center  mr-10 text-white"><img src="./logo.svg" alt="" className="w-[32px]" /></h1>
           <h1 className="hidden sm:flex items-center justify-between gap-2 space-x-2 text-2xl font-bold py-4 text-center selection:bg-indigo-700/[0.2] selection:text-indigo-500 mr-10 text-white"><img src="./logo.svg" alt="" className="w-[32px]" />Signify</h1>
           <div className="relative text-neutral-50 items-center flex justify-between gap-4 hover:text-neutral-300">
             {navItems.map((navItem: any, idx: number) => (
