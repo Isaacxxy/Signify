@@ -108,7 +108,7 @@ export function LandingPage() {
             />
           </ul>
         </div>
-        {/* <div className="bg-black w-1/2">
+        <div className="bg-black w-1/2">
           <div className="flex flex-col justify-center items-center pb-24">
             <h1 className="text-2xl md:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 bg-opacity-50 md:leading-tight">
               Global Reach
@@ -151,7 +151,7 @@ export function LandingPage() {
               },
             ]}
           />
-        </div> */}
+        </div>
 
       </div>
     </div>

@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Settings, Settings2 } from 'lucide-react';
 
 export const FloatingNav = ({
   navItems,
@@ -101,8 +102,13 @@ export const FloatingNav = ({
           </div>
           <div className="flex space-x-[8px] z-[5000]">
             {userId && (
-              <div className="ml-[104px]">
-                <UserButton />
+              <div className="ml-[104px] flex justify-center items-center gap-4">
+                <div onClick={() => router.push('/keybinds')} className="cursor-pointer text-zinc-100 items-center hover:text-neutral-300">
+                  <Settings />
+                </div>
+                <div className="border rounded-full w-fit h-fit p-0 flex items-center border-neutral-700">
+                  <UserButton />
+                </div>
               </div>)}
             {!userId && (
               <>

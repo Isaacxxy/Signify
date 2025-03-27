@@ -61,7 +61,6 @@ const VideoCall = () => {
 
   if (!localStream && !peer) return;
 
-  // Déterminer le receiverId de manière simple
   const receiverId =
     ongoingCall?.participants?.caller?.userId === peer?.participantUser?.userId
       ? ongoingCall?.participants?.caller?.userId
