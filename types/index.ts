@@ -1,5 +1,6 @@
 import { User } from "@clerk/nextjs/server";
 import Peer from "simple-peer";
+import * as tf from "@tensorflow/tfjs";
 
 export type SocketUser = {
   userId: string;

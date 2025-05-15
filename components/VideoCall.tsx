@@ -56,7 +56,9 @@ const VideoCall = () => {
   const isOnCall = localStream && peer && ongoingCall ? true : false;
 
   if (isCallEnded) {
-    return <div className="mt-5 text-rose-500 text-center">Call Ended</div>;
+    return <div className="flex justify-center items-center mt-5 text-rose-500 text-center w-full">
+      Call Ended
+    </div>;
   }
 
   if (!localStream && !peer) return;

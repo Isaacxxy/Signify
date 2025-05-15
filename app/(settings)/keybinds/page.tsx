@@ -5,7 +5,11 @@ import Button from "@/components/ui/key";
 
 export default function KeybindTile() {
   const keybinds = [
-    { action: "Open Sidebar", key: ["Ctrl", "B"] },
+    { action: "Toggle Camera", key: ["Alt", "C"] },
+    { action: "Toggle Microphone", key: ["Alt", "M"] },
+    { action: "Toggle SubTitle", key: ["Ctrl", "S"] },
+    { action: "Toggle Sidebar", key: ["Ctrl", "B"] },
+    { action: "Toggle Chat", key: ["Ctrl", "M"] },
   ];
 
   return (

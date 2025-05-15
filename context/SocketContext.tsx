@@ -377,7 +377,7 @@ export const SocketContextProvider = ({
     if (isCallEnded) {
       timeout = setTimeout(() => {
         setIsCallEnded(false);
-      }, 2000);
+      }, 90000);
     }
     return () => clearTimeout(timeout);
   }, [isCallEnded]);

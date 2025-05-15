@@ -103,7 +103,11 @@ export const FloatingNav = ({
           <div className="flex space-x-[8px] z-[5000]">
             {userId && (
               <div className="ml-[104px] flex justify-center items-center gap-4">
-                <div onClick={() => router.push('/keybinds')} className="cursor-pointer text-zinc-100 items-center hover:text-neutral-300">
+                <div
+                  onClick={() => router.push('/keybinds')}
+                  className="cursor-pointer text-zinc-100 items-center hover:text-neutral-300"
+                  aria-label="Keybinds"
+                >
                   <Settings />
                 </div>
                 <div className="border rounded-full w-fit h-fit p-0 flex items-center border-neutral-700">

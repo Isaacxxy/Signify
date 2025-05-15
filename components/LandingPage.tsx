@@ -22,7 +22,7 @@ export function LandingPage() {
             Instant sign language interpretation, making your conversations seamless.
           </p>
           <div className="mt-8 flex justify-between w-fit mx-auto gap-[10px]">
-            <Button className="px-6 py-3 bg-indigo-500 text-white rounded-md font-semibold text-sm" variant="default" onClick={() => router.push('./videoChat')}>Try Now</Button>
+            <Button className="px-6 py-3 bg-indigo-700 text-white hover:bg-indigo-500 rounded-md font-semibold text-sm" variant="default" onClick={() => router.push('./videoChat')}>Try Now</Button>
             <Button className="px-6 py-3 rounded-md font-semibold text-sm w-fit" variant="secondary">Learn More</Button>
           </div>
         </div>
