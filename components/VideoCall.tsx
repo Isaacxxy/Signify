@@ -9,12 +9,8 @@ import { MdSignLanguage } from "react-icons/md";
 import { ImPhoneHangUp } from "react-icons/im";
 import { useUser } from "@clerk/nextjs";
 import { IoIosChatbubbles } from "react-icons/io";
-import { PhoneIncoming } from 'lucide-react';
+import { PhoneIncoming } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
-import { PointerHighlight } from "./ui/pointer-highlight";
-import { StarsBackground } from "./ui/stars-background";
-import { ShootingStars } from "./ui/shooting-stars";
-
 
 const VideoCall = () => {
   const {
@@ -40,7 +36,6 @@ const VideoCall = () => {
   const [hasLoggedCall, setHasLoggedCall] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-
   useEffect(() => {
     if (localStream) {
       const videoTrack = localStream.getVideoTracks()[0];
@@ -50,7 +45,6 @@ const VideoCall = () => {
     }
   }, [localStream]);
 
-
   const toggleCamera = useCallback(() => {
     if (localStream && localStream.getVideoTracks().length > 0) {
       const videoTrack = localStream.getVideoTracks()[0];
@@ -58,7 +52,6 @@ const VideoCall = () => {
       setIsVidOn(videoTrack.enabled);
     }
   }, [localStream]);
-
 
   const toggleMic = useCallback(() => {
     if (localStream) {
@@ -115,8 +108,6 @@ const VideoCall = () => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [toggleCamera, toggleMic]);
 
-
-
   const isOnCall = localStream && peer && ongoingCall ? true : false;
 
   useEffect(() => {
@@ -124,7 +115,7 @@ const VideoCall = () => {
 
     if (isOnCall) {
       interval = setInterval(() => {
-        setCallDuration(prev => prev + 1);
+        setCallDuration((prev) => prev + 1);
       }, 1000);
     } else {
       setCallDuration(0);
@@ -133,8 +124,10 @@ const VideoCall = () => {
     return () => clearInterval(interval);
   }, [isOnCall]);
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
-    const secs = (seconds % 60).toString().padStart(2, '0');
+    const mins = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+    const secs = (seconds % 60).toString().padStart(2, "0");
     return `${mins}:${secs}`;
   };
 
@@ -142,7 +135,7 @@ const VideoCall = () => {
     if (ongoingCall && peer) {
       setCallParticipants({
         callerId: ongoingCall.participants.caller?.userId,
-        receiverId: ongoingCall.participants.receiver?.userId
+        receiverId: ongoingCall.participants.receiver?.userId,
       });
     }
   }, [ongoingCall, peer]);
@@ -151,15 +144,20 @@ const VideoCall = () => {
     return () => clearTimeout(timer);
   }, []);
 
-
   if (isCallEnded) {
     console.log("callParticipants >>>>>>>", callParticipants);
     const receiverId = callParticipants.receiverId;
     console.log("user.id >>>>>>>", user?.id);
     console.log("Duration", duration);
 
-    if (user?.id && receiverId && duration && callParticipants.callerId && callParticipants.callerId !== user?.id && !hasLoggedCall) {
-
+    if (
+      user?.id &&
+      receiverId &&
+      duration &&
+      callParticipants.callerId &&
+      callParticipants.callerId !== user?.id &&
+      !hasLoggedCall
+    ) {
       setHasLoggedCall(true);
       const formData = new FormData();
       formData.append("callerId", callParticipants.callerId);
@@ -177,38 +175,37 @@ const VideoCall = () => {
           setHasLoggedCall(false);
         });
     }
-    return <div className="absolute bg-zinc-700 w-full bg-opacity-70 h-screen top-0 left-0 flex items-center justify-center">
-      <div className="shadow-lg bg-black font-Roboto-light min-w-[300px] win-h-[100px] flex flex-col items-center justify-center mx-4 rounded-xl p-10">
-        <p className="text-white text-lg mb-4">Call ended</p>
-        <PhoneIncoming size={42} className="text-white mb-2" />
+    return (
+      <div className="absolute bg-zinc-700 w-full bg-opacity-70 h-screen top-0 left-0 flex items-center justify-center">
+        <div className="shadow-lg bg-black font-Roboto-light min-w-[300px] win-h-[100px] flex flex-col items-center justify-center mx-4 rounded-xl p-10">
+          <p className="text-white text-lg mb-4">Call ended</p>
+          <PhoneIncoming size={42} className="text-white mb-2" />
+        </div>
       </div>
-    </div>
+    );
   }
-
-
 
   if (!localStream && !peer) {
     return (
       <div className="flex flex-col items-center justify-center h-[80vh] w-[1400px] overflow-hidden relative">
         <div className="flex items-center justify-center">
-          {isLoading ?
-            (
-              <div className="flex flex-col items-center">
-                <Skeleton className="h-32 w-32 rounded-full" />
-                <Skeleton className="h-6 w-24 rounded  mt-4" />
-              </div>
-            ) : (
-              <div className="flex flex-col items-center">
-                <img src={user?.imageUrl} alt="" className="w-32 h-32 rounded-full" />
-                <h1 className="text-white text-2xl font-bold mt-4">
-                  {user?.fullName}
-                </h1>
-              </div>
-
-
-            )
-          }
-
+          {isLoading ? (
+            <div className="flex flex-col items-center">
+              <Skeleton className="h-32 w-32 rounded-full" />
+              <Skeleton className="h-6 w-24 rounded  mt-4" />
+            </div>
+          ) : (
+            <div className="flex flex-col items-center">
+              <img
+                src={user?.imageUrl}
+                alt=""
+                className="w-32 h-32 rounded-full"
+              />
+              <h1 className="text-white text-2xl font-bold mt-4">
+                {user?.fullName}
+              </h1>
+            </div>
+          )}
         </div>
         <div className="flex flex-col items-center justify-center p-4">
           <h1 className="relative z-10 text-lg md:text-5xl py-3  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600 text-center font-sans font-bold">
@@ -223,7 +220,6 @@ const VideoCall = () => {
     );
   }
 
-
   const receiverId =
     ongoingCall?.participants?.caller?.userId === peer?.participantUser?.userId
       ? ongoingCall?.participants?.caller?.userId
@@ -232,19 +228,21 @@ const VideoCall = () => {
   console.log("receiverId out of callEnd >>>>", receiverId);
 
   const handleSendMessage = () => {
-
-    messages.push({ senderId: user?.id || '', text: newMessage });
+    messages.push({ senderId: user?.id || "", text: newMessage });
     if (newMessage.trim() && receiverId) {
       sendMessage(receiverId, newMessage);
       setNewMessage("");
     }
   };
 
-
   return (
     <div className="flex flex-col md:flex-row gap-6 p-4 h-full w-full max-w-[1400px] mx-auto">
       {/* Section Vidéo */}
-      <div className={`flex-1 flex flex-col justify-between gap-6 ${!isChatOpen && "items-center"}`}>
+      <div
+        className={`flex-1 flex flex-col justify-between gap-6 ${
+          !isChatOpen && "items-center"
+        }`}
+      >
         <div className="relative w-full h-auto">
           <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
             {!isOnCall && (
@@ -269,18 +267,13 @@ const VideoCall = () => {
             />
           )}
           {isOnCall && (
-            <div className="absolute top-2 right-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded text-sm z-10">
+            <div className="absolute top-2 right-2 bg-white bg-opacity-60 text-black px-2 py-1 rounded text-sm z-10">
               {formatTime(callDuration)}
             </div>
           )}
         </div>
 
         <div className="flex flex-wrap justify-between items-center gap-4 w-full md:w-3/4 mx-auto">
-          <Button className="bg-white text-black rounded-xl">
-            <MdSignLanguage />
-          </Button>
-
-
 
           <div className="flex gap-3">
             <Button onClick={toggleMic}>
@@ -309,19 +302,26 @@ const VideoCall = () => {
       </div>
 
       {/* Section Chat */}
-      <div className={`w-full md:w-1/3 bg-white shadow-xl rounded-2xl p-4 flex flex-col ${isChatOpen ? "flex justify-between" : "hidden"}`}>
+      <div
+        className={`w-full md:w-1/3 bg-white shadow-xl rounded-2xl p-4 flex flex-col ${
+          isChatOpen ? "flex justify-between" : "hidden"
+        }`}
+      >
         {/* Messages */}
         <div className="h-72 overflow-y-auto mb-4 space-y-4 px-2">
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`flex ${msg.senderId === user?.id ? "justify-end" : "justify-start"}`}
+              className={`flex ${
+                msg.senderId === user?.id ? "justify-end" : "justify-start"
+              }`}
             >
               <div
-                className={`max-w-xs px-4 py-3 rounded-2xl text-sm shadow-md ${msg.senderId === user?.id
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-800"
-                  }`}
+                className={`max-w-xs px-4 py-3 rounded-2xl text-sm shadow-md ${
+                  msg.senderId === user?.id
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-800"
+                }`}
               >
                 {msg.text}
               </div>
@@ -348,7 +348,6 @@ const VideoCall = () => {
         </div>
       </div>
     </div>
-
   );
 };
 
