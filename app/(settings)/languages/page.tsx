@@ -1,3 +1,6 @@
+"use client";
+import { useTranslation } from "react-i18next";
+import i18n from "@/lib/i18n";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import SettingsHeader from "../_components/settings_header";

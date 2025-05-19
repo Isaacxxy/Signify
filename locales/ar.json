@@ -1,0 +1,22 @@
+{
+  "settings_title": "الإعدادات",
+  "user_settings": "إعدادات المستخدم",
+  "my_account": "حسابي",
+  "devices": "الأجهزة",
+  "app_settings": "إعدادات التطبيق",
+  "keybinds": "اختصارات لوحة المفاتيح",
+  "language": "اللغة",
+  "about": "حول",
+  "log_out": "تسجيل الخروج",
+  "select_language": "اختر لغة",
+  "toggle_camera": "تشغيل/إيقاف تشغيل الكاميرا",
+  "toggle_microphone": "تشغيل/إيقاف تشغيل الميكروفون",
+  "toggle_sign_language_translation": "تشغيل/إيقاف تشغيل ترجمة لغة الإشارة",
+  "toggle_sidebar": "تشغيل/إيقاف تشغيل الشريط الجانبي",
+  "toggle_chat": "تشغيل/إيقاف تشغيل الدردشة",
+  "edit_picture": "تعديل الصورة",
+  "account_removal": "حذف الحساب",
+  "account_removal_description": "تعطيل حسابك يعني أنه يمكنك استعادته في أي وقت بعد اتخاذ هذا الإجراء.",
+  "disable_account": "تعطيل الحساب",
+  "delete_account": "حذف الحساب"
+}

@@ -12,10 +12,12 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { io, Socket } from "socket.io-client";
 import Peer, { SignalData } from "simple-peer";
+import * as tf from '@tensorflow/tfjs';
 
 interface iSocketContext {
   onlineUsers: SocketUser[] | null;
@@ -35,6 +37,7 @@ interface iSocketContext {
   // handleSendMessage: (receiverId: string, text: string) => void;
   sendMessage: (receiverId: string, text: string) => void;
   messages: { senderId: string; text: string }[];
+  duration: number | null;
 }
 
 export const SocketContext = createContext<iSocketContext | null>(null);
@@ -55,6 +58,9 @@ export const SocketContextProvider = ({
   const [peer, setPeer] = useState<PeerData | null>(null);
   const [isCallEnded, setIsCallEnded] = useState(false);
   const [messages, setMessages] = useState<SocketMessage[]>([]);
+  const [callStartTime, setCallStartTime] = useState<number | null>(null);
+  const [duration, setDuration] = useState<number | null>(null);
+
 
   const currentSocketUser = onlineUsers?.find(
     (onlineUser) => onlineUser.userId === user?.id
@@ -142,6 +148,13 @@ export const SocketContextProvider = ({
         localStream.getTracks().forEach((track) => track.stop());
         setLocalStream(null);
       }
+      if (callStartTime) {
+        const callEndTime = Date.now();
+        const duration = Math.floor((callEndTime - callStartTime) / 1000);
+        setDuration(duration);
+        console.log("Call duration:", duration, "seconds");
+      }
+      setCallStartTime(null);
       setIsCallEnded(true);
     },
     [socket, user, localStream]
@@ -198,6 +211,7 @@ export const SocketContextProvider = ({
   const handleJoinCall = useCallback(
     async (ongoingCall: OnGoingCall) => {
       setIsCallEnded(false);
+      setCallStartTime(Date.now());
       setOngoingCall((prev) => {
         if (prev) {
           return { ...prev, isRinging: false };
@@ -272,25 +286,6 @@ export const SocketContextProvider = ({
     [socket, user]
   );
 
-  // interface SendMessageData {
-  //   senderId: string;
-  //   receiverId: string;
-  //   text: string;
-  // }
-
-  // const handleSendMessage = useCallback(
-  //   (receiverId: string, text: string) => {
-  //     if (socket && user) {
-  //       const messageData: SendMessageData = {
-  //         senderId: user.id,
-  //         receiverId,
-  //         text,
-  //       };
-  //       socket.emit("sendMessage", messageData);
-  //     }
-  //   },
-  //   [socket, user]
-  // );
 
   useEffect(() => {
     if (!socket || !isSocketConnected) return;
@@ -363,7 +358,15 @@ export const SocketContextProvider = ({
   useEffect(() => {
     if (!socket || !isSocketConnected) return;
     const handleUserBusy = () => {
-      alert("User busy");
+      return (
+        <div className="absolute bg-zinc-700 w-full bg-opacity-70 h-screen top-0 left-0 flex items-center justify-center z-50">
+          <div className="shadow-lg bg-black font-Roboto-light min-w-[300px] win-h-[100px] flex flex-col items-center justify-center mx-4 rounded-xl p-10">
+            <div className="flex flex-col items-center">
+              User is busy
+            </div>
+          </div>
+        </div>
+      )
     };
 
     socket.on("userBusy", handleUserBusy);
@@ -377,7 +380,7 @@ export const SocketContextProvider = ({
     if (isCallEnded) {
       timeout = setTimeout(() => {
         setIsCallEnded(false);
-      }, 90000);
+      }, 2000);
     }
     return () => clearTimeout(timeout);
   }, [isCallEnded]);
@@ -394,9 +397,9 @@ export const SocketContextProvider = ({
         handleHangup,
         isCallEnded,
         testStream,
-        // handleSendMessage,
         sendMessage,
         messages,
+        duration,
       }}
     >
       {children}

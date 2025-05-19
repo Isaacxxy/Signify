@@ -1,0 +1,22 @@
+{
+  "settings_title": "设置",
+  "user_settings": "用户设置",
+  "my_account": "我的账户",
+  "devices": "设备",
+  "app_settings": "应用设置",
+  "keybinds": "快捷键",
+  "language": "语言",
+  "about": "关于",
+  "log_out": "登出",
+  "select_language": "选择一种语言",
+  "toggle_camera": "开启/关闭摄像头",
+  "toggle_microphone": "开启/关闭麦克风",
+  "toggle_sign_language_translation": "开启/关闭手语翻译",
+  "toggle_sidebar": "开启/关闭侧边栏",
+  "toggle_chat": "开启/关闭聊天",
+  "edit_picture": "编辑图片",
+  "account_removal": "帐户删除",
+  "account_removal_description": "禁用您的帐户意味着您可以随时恢复它。",
+  "disable_account": "禁用帐户",
+  "delete_account": "删除帐户"
+}

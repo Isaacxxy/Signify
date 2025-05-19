@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { useRouter } from 'next/navigation'
-import { useAuth, UserButton } from '@clerk/nextjs'
+import { SignInButton, SignUpButton, useAuth, UserButton } from '@clerk/nextjs'
 import {
   motion,
   AnimatePresence,
@@ -115,10 +115,18 @@ export const FloatingNav = ({
                 </div>
               </div>)}
             {!userId && (
-              <>
-                <Button onClick={() => router.push('/sign-in')} size='sm' className="">Sign in</Button>
-                <Button onClick={() => router.push('/sign-up')} size='sm' className="">Sign up</Button>
-              </>
+              <div className="flex flex-row gap-2">
+                <Button className="px-6 py-3 bg-indigo-700 text-white hover:bg-indigo-500 rounded-md font-semibold text-sm">
+                  <SignInButton forceRedirectUrl="/" mode="redirect">
+                    Login
+                  </SignInButton>
+                </Button>
+                <Button className="px-6 py-3 rounded-md font-semibold text-sm w-fit dark:bg-neutral-800 dark:text-white dark:hover:bg-[#27272acc]">
+                  <SignUpButton forceRedirectUrl="/" mode="redirect">
+                    Sign up
+                  </SignUpButton>
+                </Button>
+              </div>
             )}
           </div>
         </motion.div>

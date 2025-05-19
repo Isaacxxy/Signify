@@ -1,0 +1,22 @@
+{
+  "settings_title": "Settings",
+  "user_settings": "User settings",
+  "my_account": "My account",
+  "devices": "Devices",
+  "app_settings": "App settings",
+  "keybinds": "Keybinds",
+  "language": "Language",
+  "about": "About",
+  "log_out": "Log out",
+  "select_language": "Select a language",
+  "toggle_camera": "Toggle camera",
+  "toggle_microphone": "Toggle microphone",
+  "toggle_sign_language_translation": "Toggle sign language translation",
+  "toggle_sidebar": "Toggle side bar",
+  "toggle_chat": "Toggle chat",
+  "edit_picture": "Edit picture",
+  "account_removal": "ACCOUNT REMOVAL",
+  "account_removal_description": "Disabling your account means you can recover it any time after taking this action.",
+  "disable_account": "Disable account",
+  "delete_account": "Delete account"
+}

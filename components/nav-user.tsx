@@ -1,12 +1,9 @@
 "use client"
 
 import {
-  BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
+  Phone,
 } from "lucide-react"
 
 import {
@@ -30,6 +27,9 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
+import { useRouter } from "next/navigation"
+import { useClerk } from "@clerk/nextjs"
+
 export function NavUser({
   userdata,
 }: {
@@ -40,7 +40,11 @@ export function NavUser({
   } | undefined
 }) {
   const { isMobile } = useSidebar()
-
+  const router = useRouter();
+  const { signOut } = useClerk();
+  const handleSignOut = () => {
+    signOut();
+  };
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -81,28 +85,13 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+              <DropdownMenuItem onClick={() => { router.push("/videoChat/callSessions") }}>
+                <Phone />
+                Calls Sessions
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>

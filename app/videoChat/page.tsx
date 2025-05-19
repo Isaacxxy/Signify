@@ -8,7 +8,7 @@ function Page() {
 
 
   return (
-    <div className='h-full m-8 rounded-xl bg-primary-foreground w-fit mx-auto'>
+    <div className='h-[80vh] rounded-xl bg-primary-foreground w-fit mx-auto justify-center items-center flex flex-col gap-10'>
       <CallNotification />
       <VideoCall />
     </div>

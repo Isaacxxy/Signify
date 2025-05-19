@@ -107,7 +107,9 @@ app.prepare().then(() => {
     socket.on("call", onCall);
     socket.on("webrtcSignal", onWebrtcSignal);
     socket.on("hangup", onHangup);
-    
+
+
+
     socket.on("sendMessage", async ({ senderId, receiverId, text }) => {
       const receiver = onlineUsers.find((user) => user.userId === receiverId);
       if (receiver) {

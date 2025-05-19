@@ -10,6 +10,8 @@ export default function KeybindTile() {
     { action: "Toggle SubTitle", key: ["Ctrl", "S"] },
     { action: "Toggle Sidebar", key: ["Ctrl", "B"] },
     { action: "Toggle Chat", key: ["Ctrl", "M"] },
+    { action: "Hang Up", key: ["Alt", "H"] },
+    { action: "Toggle Settings", key: ["Ctrl", "Shift", "S"] },
   ];
 
   return (

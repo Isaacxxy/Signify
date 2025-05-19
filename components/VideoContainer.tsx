@@ -23,7 +23,7 @@ const VideoContainer = ({
   return (
     <video
       ref={videoRef}
-      className={cn("rounded-2xl border-slate-400 border-2 w-[1200px]", isLocalStream && isOnCall && "md:w-[300px] w-[200px] h-auto rounded-lg absolute top-2 left-2", isChatOpen && !isLocalStream && !isOnCall && "w-[1500px]")}
+      className={cn("rounded border-slate-400 border-2 w-[1200px]", isLocalStream && isOnCall && "md:w-[300px] w-[200px] h-auto rounded absolute top-2 left-2", isChatOpen && !isLocalStream && !isOnCall && "w-[1500px]")}
       autoPlay
       muted={isLocalStream}
       playsInline

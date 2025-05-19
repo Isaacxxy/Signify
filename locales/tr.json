@@ -1,0 +1,22 @@
+{
+  "settings_title": "Ayarlar",
+  "user_settings": "Kullanıcı Ayarları",
+  "my_account": "Hesabım",
+  "devices": "Cihazlar",
+  "app_settings": "Uygulama Ayarları",
+  "keybinds": "Kısayol Tuşları",
+  "language": "Dil",
+  "about": "Hakkında",
+  "log_out": "Çıkış Yap",
+  "select_language": "Bir dil seçin",
+  "toggle_camera": "Kamerayı aç/kapat",
+  "toggle_microphone": "Mikrofonu aç/kapat",
+  "toggle_sign_language_translation": "İşaret dili çevirisini aç/kapat",
+  "toggle_sidebar": "Yan çubuğu aç/kapat",
+  "toggle_chat": "Sohbeti aç/kapat",
+  "edit_picture": "Resmi düzenle",
+  "account_removal": "HESAP KALDIRMA",
+  "account_removal_description": "Hesabınızı devre dışı bırakmanız, bu işlemi yaptıktan sonra istediğiniz zaman geri alabileceğiniz anlamına gelir.",
+  "disable_account": "Hesabı devre dışı bırak",
+  "delete_account": "Hesabı sil"
+}

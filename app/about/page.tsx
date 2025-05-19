@@ -218,7 +218,7 @@ const page = () => {
 }
 
 
-export const projects = [
+const projects = [
   { title: 'Accessibility', description: 'We believe technology should be accessible to everyone, regardless of their hearing abilities.' },
   { title: 'Innovation', description: 'We explore new technologies to enhance real-time sign language translation.' },
   { title: 'Inclusivity', description: 'Fostering inclusive communication so that no one is left out.' },

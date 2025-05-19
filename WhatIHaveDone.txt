@@ -1,0 +1,3 @@
+1: I added the model in public folder
+2: I added nex component in the components folder named SignLanguageModel.tsx (its load the model)
+3: 

@@ -20,6 +20,8 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from "@/components/ui/sidebar";
+import { useClerk } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const sections = [
   {
@@ -37,6 +39,7 @@ const footerItems = [
 ];
 
 function SidebarSection({ label, items }: { label: string; items: any[] }) {
+
   return (
     <SidebarGroup className="space-y-2">
       <SidebarGroupLabel className="text-base cursor-default">{label}</SidebarGroupLabel>
@@ -59,6 +62,11 @@ function SidebarSection({ label, items }: { label: string; items: any[] }) {
 }
 
 export function AppSidebar() {
+  const router = useRouter();
+  const { signOut } = useClerk();
+  const handleSignOut = () => {
+    signOut();
+  };
   return (
     <Sidebar>
       <SidebarHeader>
@@ -93,10 +101,10 @@ export function AppSidebar() {
             {footerItems.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <Link href={item.url}>
+                  <div className="flex items-center gap-2" onClick={item.title === "Log out" ? handleSignOut : () => router.push(item.url)}>
                     <item.icon />
                     <span>{item.title}</span>
-                  </Link>
+                  </div>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}

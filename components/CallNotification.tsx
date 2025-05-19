@@ -9,8 +9,8 @@ const CallNotification = () => {
   if (!ongoingCall?.isRinging) return;
 
   return (
-    <div className="absolute bg-slate-500 w-screen bg-opacity-70 h-screen top-0 left-0 flex items-center justify-center">
-      <div className="bg-white min-w-[300px] win-h-[100px] flex flex-col items-center justify-center rounded p-4 ">
+    <div className="absolute bg-zinc-700 w-full bg-opacity-70 h-screen top-0 left-0 flex items-center justify-center z-50">
+      <div className="shadow-lg bg-black font-Roboto-light min-w-[300px] win-h-[100px] flex flex-col items-center justify-center mx-4 rounded-xl p-10">
         <div className="flex flex-col items-center">
           <Avatar>
             <AvatarImage src={ongoingCall.participants.caller.profile.imageUrl} className='h-[40px] w-[40px]' />

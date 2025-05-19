@@ -29,10 +29,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <SidebarProvider>
         <AppSidebar />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 w-full">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <div className="w-full flex items-center justify-end">
+          <header className="grid grid-cols-3 h-16 shrink-0 items-center border-b px-4 w-full bg-black">
+            <div className="flex flex-row items-center justify-start w-full">
+              <SidebarTrigger className="-ml-1" />
+              <Separator orientation="vertical" className="mr-2 h-4" />
+            </div>
+            <div className="w-full flex items-center justify-center">
               <h1 className="hidden sm:flex items-center justify-between gap-2 space-x-2 text-2xl font-bold py-4 text-center selection:bg-indigo-700/[0.2] selection:text-indigo-500 mr-10 text-white"><img src="./logo.svg" alt="" className="w-[32px]" />Signify</h1>
             </div>
             <div className="flex flex-row justify-end items-center w-full">
@@ -42,7 +44,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </Link>
             </div>
           </header>
-          {children}
+          <div className="flex flex-col gap-4 items-center justify-center w-full h-full p-4 bg-black">
+            {children}
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </ThemeProvider>

@@ -1,0 +1,22 @@
+{
+  "settings_title": "Einstellungen",
+  "user_settings": "Benutzereinstellungen",
+  "my_account": "Mein Konto",
+  "devices": "Geräte",
+  "app_settings": "Anwendungseinstellungen",
+  "keybinds": "Tastenkombinationen",
+  "language": "Sprache",
+  "about": "Über",
+  "log_out": "Abmelden",
+  "select_language": "Wählen Sie eine Sprache",
+  "toggle_camera": "Kamera ein-/ausschalten",
+  "toggle_microphone": "Mikrofon ein-/ausschalten",
+  "toggle_sign_language_translation": "Gebärdensprachübersetzung ein-/ausschalten",
+  "toggle_sidebar": "Seitenleiste ein-/ausschalten",
+  "toggle_chat": "Chat ein-/ausschalten",
+  "edit_picture": "Bild bearbeiten",
+  "account_removal": "KONTO-ENTFERNUNG",
+  "account_removal_description": "Das Deaktivieren deines Kontos bedeutet, dass du es jederzeit wiederherstellen kannst.",
+  "disable_account": "Konto deaktivieren",
+  "delete_account": "Konto löschen"
+}

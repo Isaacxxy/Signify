@@ -1,0 +1,22 @@
+{
+  "settings_title": "Impostazioni",
+  "user_settings": "Impostazioni utente",
+  "my_account": "Il mio account",
+  "devices": "Dispositivi",
+  "app_settings": "Impostazioni dell'applicazione",
+  "keybinds": "Scorciatoie da tastiera",
+  "language": "Lingua",
+  "about": "Informazioni",
+  "log_out": "Disconnetti",
+  "select_language": "Seleziona una lingua",
+  "toggle_camera": "Attiva/disattiva la fotocamera",
+  "toggle_microphone": "Attiva/disattiva il microfono",
+  "toggle_sign_language_translation": "Attiva/disattiva la traduzione della lingua dei segni",
+  "toggle_sidebar": "Attiva/disattiva la barra laterale",
+  "toggle_chat": "Attiva/disattiva la chat",
+  "edit_picture": "Modifica immagine",
+  "account_removal": "RIMOZIONE DELL'ACCOUNT",
+  "account_removal_description": "Disattivare il tuo account significa che puoi recuperarlo in qualsiasi momento dopo questa azione.",
+  "disable_account": "Disattiva account",
+  "delete_account": "Elimina account"
+}
